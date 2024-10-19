@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
         var FoundActors = Physics.OverlapSphere(transform.position, 0.2f, projectileHitsType.value, QueryTriggerInteraction.Ignore);
         if (FoundActors.Length > 0) {
             if (FoundActors[0].TryGetComponent<Actor>(out Actor foundActor)) {
-                foundActor.healthSystem.TakeDamage(damageAmount);
+                foundActor.healthSystem.EnemyTakeDamage(damageAmount);
             }
             Destroy(gameObject);
         }

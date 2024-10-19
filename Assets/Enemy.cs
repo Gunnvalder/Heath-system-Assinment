@@ -25,7 +25,7 @@ public class Enemy : Actor {
 
     public override bool WantsToShoot()
     {
-        if (healthSystem.health <= 0)
+        if (healthSystem.enemyHealth <= 0)
             return false;
         shootInterval -= Time.deltaTime;
         if (shootInterval < 0.0f) {
@@ -44,5 +44,6 @@ public class Enemy : Actor {
             newCreated.transform.position = transform.position + Vector3.up * 0.45f;
         }
         Destroy(gameObject);
+
     }
 }

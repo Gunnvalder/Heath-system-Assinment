@@ -20,10 +20,10 @@ public class Player : Actor {
 
     public override void Update() {
         base.Update();
-        if (lastCheckedHealth != healthSystem.health || lastCheckedLevel != healthSystem.level || lastCheckedXp != healthSystem.xp)
+        if (lastCheckedHealth != healthSystem.playerHealth || lastCheckedLevel != healthSystem.level || lastCheckedXp != healthSystem.xp)
         {
             HealthUI.instance.textmeshpro.text = healthSystem.ShowHUD();
-            lastCheckedHealth = healthSystem.health;
+            lastCheckedHealth = healthSystem.playerHealth;
             lastCheckedLevel = healthSystem.level;
             lastCheckedXp = healthSystem.xp;
         }
@@ -40,7 +40,7 @@ public class Player : Actor {
 
     public override bool WantsToShoot()
     {
-        if (healthSystem.health <= 0)
+        if (healthSystem.playerHealth <= 0)
             return false;
         return Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0);
     }

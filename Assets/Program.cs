@@ -4,21 +4,41 @@ using UnityEngine;
 public class HealthSystem
 {
     // Variables
-    public int health;
-    public int shield;
+    public int playerHealth;
+    public int enemyHealth;
+    public int playerShield;
+    public int enemyShield;
     public int lives;
+    public GameObject Player;
+    public GameObject Enemy;
 
-    public string healthStatus
+    public string playerHealthStatus
     {
         get
         {
-            if (health <= 0)
+            if (playerHealth <= 0)
                 return "Imminent Danger";
-            else if (health <= 50)
+            else if (playerHealth <= 50)
                 return "Badly Hurt";
-            else if (health <= 75)
+            else if (playerHealth <= 75)
                 return "Hurt";
-            else if (health <= 90)
+            else if (playerHealth <= 90)
+                return "Healthy";
+            else return "Perfect Health";
+        }
+    }
+
+    public string enemyHealthStatus
+    {
+        get
+        {
+            if (enemyHealth <= 0)
+                return "Imminent Danger";
+            else if (enemyHealth <= 50)
+                return "Badly Hurt";
+            else if (enemyHealth <= 75)
+                return "Hurt";
+            else if (enemyHealth <= 90)
                 return "Healthy";
             else return "Perfect Health";
         }
@@ -39,23 +59,23 @@ public class HealthSystem
         return "";
     }
 
-    public void TakeDamage(int damage)
+    public void PlayerTakeDamage(int damage)
     {
         if (damage < 0) return;
         {
-            if (shield > 0)
+            if (playerShield > 0)
             {
-                if (damage >= shield)
+                if (damage >= playerShield)
                 {
-                    damage -= shield;
-                    shield = 0;
-                    health = Mathf.Max(health - damage, 0);
+                    damage -= playerShield;
+                    playerShield = 0;
+                    playerHealth = Mathf.Max(playerHealth - damage, 0);
                 }
             }
             else
             {
-                shield -= damage;
-                health = Mathf.Max(health - damage, 0);
+                playerShield -= damage;
+                playerHealth = Mathf.Max(playerHealth - damage, 0);
             }
         }
 
@@ -67,28 +87,64 @@ public class HealthSystem
         //    damage = Math.Max(0, damage);
         //}
 
-        health = Math.Max(0, health - damage);
+        playerHealth = Math.Max(0, playerHealth - damage);
 
-        if (health == 0)
+        if (playerHealth == 0)
            Revive();
 
-        Debug.Log(health);
+        Debug.Log(playerHealth);
+    }
+
+    public void EnemyTakeDamage(int damage)
+    {
+        if (damage < 0) return;
+        {
+            if (enemyShield > 0)
+            {
+                if (damage >= enemyShield)
+                {
+                    damage -= enemyShield;
+                    enemyShield = 0;
+                    enemyHealth = Mathf.Max(enemyHealth - damage, 0);
+                }
+            }
+            else
+            {
+                enemyShield -= damage;
+                enemyHealth = Mathf.Max(enemyHealth - damage, 0);
+            }
+        }
+
+
+        //if (shield > 0)
+        //{
+        //    damage -= shield;
+        //    shield = Math.Max(0, shield - damage);
+        //    damage = Math.Max(0, damage);
+        //}
+
+        enemyHealth = Math.Max(0, enemyHealth - damage);
+
+        if (enemyHealth == 0)
+            Revive();
+
+        Debug.Log(enemyHealth);
     }
 
     public void Heal(int hp)
     {
-        health = Math.Min(100, health + hp);
+        playerHealth = Math.Min(100, playerHealth + hp);
     }
 
     public void RegenerateShield(int hp)
     {
-        shield = Math.Min(100, shield + hp);   
+        playerShield = Math.Min(100, playerShield + hp);   
     }
 
     public void Revive()
     {
         lives = Math.Max(0, lives - 1);
-        health = 100;
+        playerHealth = 100;
 
         if (lives <= 0)
         {
@@ -99,8 +155,10 @@ public class HealthSystem
     public void ResetGame()
     {
         //Reset all variables to default values
-        health = 100;
-        shield = 100;
+        playerHealth = 100;
+        playerShield = 100;
+        enemyHealth = 100;
+        enemyShield = 100;
         lives = 1;
     }
 
