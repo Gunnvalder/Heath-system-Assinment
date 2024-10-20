@@ -159,7 +159,7 @@ public class HealthSystem
         playerShield = 100;
         enemyHealth = 100;
         enemyShield = 100;
-        lives = 1;
+        lives = 3;
     }
 
     // Optional XP system methods
@@ -167,4 +167,18 @@ public class HealthSystem
     {
         // Implement XP increase and level-up logic
     }
+
+    //public void Test_PlayerTakeDamage()
+    //{
+    //    HealthSystem system = new HealthSystem();
+    //    system.playerHealth = 100;
+    //    system.playerShield = 100;
+    //    system.lives = 3;
+
+    //    system.PlayerTakeDamage(10);
+
+    //    Debug.Assert(90 == system.playerShield);
+    //    Debug.Assert(100 == system.playerHealth);
+    //    Debug.Assert(3 = system.lives);
+    //}
 }
