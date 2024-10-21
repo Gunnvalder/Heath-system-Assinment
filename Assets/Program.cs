@@ -116,6 +116,18 @@ public class HealthSystem
     {
         Debug.Log("Starting Tests");
         Test_TakeDamage_OnlyShield();
+        Test_TakeDamage_ShieldAndHealth();
+        Test_TakeDamage_OnlyHealth();
+        Test_TakeDamage_HealthZero();
+        Test_TakeDamage_ShieldAndHealthZero();
+        Test_TakeDamage_NegativeInput();
+        Test_Heal_NormalHealing();
+        Test_Heal_AtMaxHealth();
+        Test_Heal_NegativeInput();
+        Test_RegenerateShield_Normal();
+        Test_RegenerateShield_AtMax();
+        Test_RegenerateShield_NegativeInput();
+        Test_Revive();
 
     }
         public void Test_TakeDamage_OnlyShield()
