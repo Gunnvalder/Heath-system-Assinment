@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using TMPro;
+using JetBrains.Annotations;
 
 public class HealthSystem
 {
@@ -36,7 +38,7 @@ public class HealthSystem
 
     public string ShowHUD()
     {
-        // Implement HUD display
+        
         return "";
     }
 
