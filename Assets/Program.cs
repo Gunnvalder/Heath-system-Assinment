@@ -4,45 +4,26 @@ using UnityEngine;
 public class HealthSystem
 {
     // Variables
-    public int playerHealth;
-    public int enemyHealth;
-    public int playerShield;
-    public int enemyShield;
+    public int health;
+    public int shield;
     public int lives;
-    public GameObject Player;
-    public GameObject Enemy;
 
-    public string playerHealthStatus
+    public string healthStatus
     {
         get
         {
-            if (playerHealth <= 0)
+            if (health <= 0)
                 return "Imminent Danger";
-            else if (playerHealth <= 50)
+            else if (health <= 50)
                 return "Badly Hurt";
-            else if (playerHealth <= 75)
+            else if (health <= 75)
                 return "Hurt";
-            else if (playerHealth <= 90)
+            else if (health <= 90)
                 return "Healthy";
             else return "Perfect Health";
         }
     }
 
-    public string enemyHealthStatus
-    {
-        get
-        {
-            if (enemyHealth <= 0)
-                return "Imminent Danger";
-            else if (enemyHealth <= 50)
-                return "Badly Hurt";
-            else if (enemyHealth <= 75)
-                return "Hurt";
-            else if (enemyHealth <= 90)
-                return "Healthy";
-            else return "Perfect Health";
-        }
-    }
 
     // Optional XP system variables
     public int xp;
@@ -59,92 +40,57 @@ public class HealthSystem
         return "";
     }
 
-    public void PlayerTakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         if (damage < 0) return;
         {
-            if (playerShield > 0)
+            if (shield > 0)
             {
-                if (damage >= playerShield)
+                if (damage >= shield)
                 {
-                    damage -= playerShield;
-                    playerShield = 0;
-                    playerHealth = Mathf.Max(playerHealth - damage, 0);
+                    damage -= shield;
+                    shield = 0;
+                    health = Mathf.Max(health - damage, 0);
                 }
             }
             else
             {
-                playerShield -= damage;
-                playerHealth = Mathf.Max(playerHealth - damage, 0);
+                shield -= damage;
+                health = Mathf.Max(health - damage, 0);
             }
         }
 
 
-        if (playerShield > 0)
+        if (shield > 0)
         {
-            damage -= playerShield;
-            playerShield = Math.Max(0, playerShield - damage);
+            damage -= shield;
+            shield = Math.Max(0, shield - damage);
             damage = Math.Max(0, damage);
         }
 
-        playerHealth = Math.Max(0, playerHealth - damage);
+        health = Math.Max(0, health - damage);
 
-        if (playerHealth == 0)
-           Revive();
-
-        Debug.Log(playerHealth);
-    }
-
-    public void EnemyTakeDamage(int damage)
-    {
-        if (damage < 0) return;
-        {
-            if (enemyShield > 0)
-            {
-                if (damage >= enemyShield)
-                {
-                    damage -= enemyShield;
-                    enemyShield = 0;
-                    enemyHealth = Mathf.Max(enemyHealth - damage, 0);
-                }
-            }
-            else
-            {
-                enemyShield -= damage;
-                enemyHealth = Mathf.Max(enemyHealth - damage, 0);
-            }
-        }
-
-
-        //if (shield > 0)
-        //{
-        //    damage -= shield;
-        //    shield = Math.Max(0, shield - damage);
-        //    damage = Math.Max(0, damage);
-        //}
-
-        enemyHealth = Math.Max(0, enemyHealth - damage);
-
-        if (enemyHealth == 0)
+        if (health == 0)
             Revive();
 
-        Debug.Log(enemyHealth);
+        Debug.Log(health);
     }
+
 
     public void Heal(int hp)
     {
-        playerHealth = Math.Min(100, playerHealth + hp);
+        health = Math.Min(100, health + hp);
     }
 
     public void RegenerateShield(int hp)
     {
-        playerShield = Math.Min(100, playerShield + hp);   
+        shield = Math.Min(100, shield + hp);
     }
 
     public void Revive()
     {
         lives = Math.Max(0, lives - 1);
-        playerHealth = 100;
+        health = 100;
 
         if (lives <= 0)
         {
@@ -155,10 +101,8 @@ public class HealthSystem
     public void ResetGame()
     {
         //Reset all variables to default values
-        playerHealth = 100;
-        playerShield = 100;
-        enemyHealth = 100;
-        enemyShield = 100;
+        health = 100;
+        shield = 100;
         lives = 3;
     }
 
@@ -168,169 +112,174 @@ public class HealthSystem
         // Implement XP increase and level-up logic
     }
 
+}
     public class HealthSystemTests
     {
-        public void Test_PlayerTakeDamage_OnlyShield()
+    public void RunTests()
+    {
+        Debug.Log("Starting Tests");
+        Test_TakeDamage_OnlyShield();
+
+    }
+        public void Test_TakeDamage_OnlyShield()
         {
             HealthSystem system = new HealthSystem();
-            system.playerShield = 100;
-            system.playerHealth = 100;
+            system.shield = 100;
+            system.health = 100;
             system.lives = 3;
 
-            system.PlayerTakeDamage(10);
+            system.TakeDamage(10);
 
-            Debug.Assert(90 == system.playerShield);
-            Debug.Assert(100 == system.playerHealth);
+            Debug.Assert(90 == system.shield);
+            Debug.Assert(100 == system.health);
             Debug.Assert(3 == system.lives);
         }
 
-        public void Test_PlayerTakeDamage_ShieldAndHealth()
+        public void Test_TakeDamage_ShieldAndHealth()
         {
             HealthSystem system = new HealthSystem();
-            system.playerShield = 50;
-            system.playerHealth = 100;
+            system.shield = 50;
+            system.health = 100;
             system.lives = 3;
 
-            system.PlayerTakeDamage(60);
+            system.TakeDamage(60);
 
-            Debug.Assert(0 == system.playerShield);
-            Debug.Assert(40 == system.playerHealth);
+            Debug.Assert(0 == system.shield);
+            Debug.Assert(40 == system.health);
             Debug.Assert(3 == system.lives);
         }
 
-        public void Test_PlayerTakeDamage_OnlyHealth()
+        public void Test_TakeDamage_OnlyHealth()
         {
             HealthSystem system = new HealthSystem();
-            system.playerShield = 0;
-            system.playerHealth = 100;
+            system.shield = 0;
+            system.health = 100;
             system.lives = 3;
 
-            system.PlayerTakeDamage(50);
+            system.TakeDamage(50);
 
-            Debug.Assert(0 == system.playerShield);
-            Debug.Assert(50 == system.playerHealth);
+            Debug.Assert(0 == system.shield);
+            Debug.Assert(50 == system.health);
             Debug.Assert(3 == system.lives);
         }
 
-        public void Test_PlayerTakeDamage_HealthZero()
+        public void Test_TakeDamage_HealthZero()
         {
             HealthSystem system = new HealthSystem();
-            system.playerShield = 0;
-            system.playerHealth = 50;
+            system.shield = 0;
+            system.health = 50;
             system.lives = 3;
 
-            system.PlayerTakeDamage(50);
+            system.TakeDamage(50);
 
-            Debug.Assert(0 == system.playerShield);
-            Debug.Assert(0 == system.playerHealth);
+            Debug.Assert(0 == system.shield);
+            Debug.Assert(0 == system.health);
             Debug.Assert(3 == system.lives);
         }
 
-        public void Test_PlayerTakeDamage_ShieldAndHealthZero()
+        public void Test_TakeDamage_ShieldAndHealthZero()
         {
             HealthSystem system = new HealthSystem();
-            system.playerShield = 20;
-            system.playerHealth = 30;
+            system.shield = 20;
+            system.health = 30;
             system.lives = 3;
 
-            system.PlayerTakeDamage(50);
+            system.TakeDamage(50);
 
-            Debug.Assert(0 == system.playerShield);
-            Debug.Assert(0 == system.playerHealth);
+            Debug.Assert(0 == system.shield);
+            Debug.Assert(0 == system.health);
             Debug.Assert(3 == system.lives);
         }
 
-        public void Test_PlayerTakeDamage_NegativeInput()
+        public void Test_TakeDamage_NegativeInput()
         {
             HealthSystem system = new HealthSystem();
-            system.playerShield = 100;
-            system.playerHealth = 100;
+            system.shield = 100;
+            system.health = 100;
             system.lives = 3;
 
-            system.PlayerTakeDamage(-10);
+            system.TakeDamage(-10);
 
-            Debug.Assert(100 == system.playerShield);
-            Debug.Assert(100 == system.playerHealth);
+            Debug.Assert(100 == system.shield);
+            Debug.Assert(100 == system.health);
             Debug.Assert(3 == system.lives);
         }
 
         public void Test_Heal_NormalHealing()
         {
             HealthSystem system = new HealthSystem();
-            system.playerHealth = 50;
+            system.health = 50;
             
 
             system.Heal(30);
 
-            Debug.Assert(80 == system.playerHealth);
+            Debug.Assert(80 == system.health);
         }
 
         public void Test_Heal_AtMaxHealth()
         {
             HealthSystem system = new HealthSystem();
-            system.playerHealth = 100;
+            system.health = 100;
 
 
             system.Heal(30);
 
-            Debug.Assert(100 == system.playerHealth);
+            Debug.Assert(100 == system.health);
         }
 
         public void Test_Heal_NegativeInput()
         {
             HealthSystem system = new HealthSystem();
-            system.playerHealth = 50;
+            system.health = 50;
 
             system.Heal(-20);
 
-            Debug.Assert(50 == system.playerHealth);
+            Debug.Assert(50 == system.health);
         }
 
         public void Test_RegenerateShield_Normal()
         {
             HealthSystem system = new HealthSystem();
-            system.playerShield = 50;
+            system.shield = 50;
 
 
             system.RegenerateShield(30);
 
-            Debug.Assert(80 == system.playerShield);
+            Debug.Assert(80 == system.shield);
         }
 
         public void Test_RegenerateShield_AtMax()
         {
             HealthSystem system = new HealthSystem();
-            system.playerShield = 100;
+            system.shield = 100;
 
 
             system.RegenerateShield(30);
 
-            Debug.Assert(100 == system.playerShield);
+            Debug.Assert(100 == system.shield);
         }
 
         public void Test_RegenerateShield_NegativeInput()
         {
             HealthSystem system = new HealthSystem();
-            system.playerShield = 50;
+            system.shield = 50;
 
             system.RegenerateShield(-20);
 
-            Debug.Assert(50 == system.playerShield);
+            Debug.Assert(50 == system.shield);
         }
 
         public void Test_Revive()
         {
             HealthSystem system = new HealthSystem();
-            system.playerHealth = 0;
-            system.playerShield = 0;
+            system.health = 0;
+            system.shield = 0;
             system.lives = 3;
 
             system.Revive();
 
-            Debug.Assert(100 == system.playerHealth);
-            Debug.Assert(100 == system.playerShield);
+            Debug.Assert(100 == system.health);
+            Debug.Assert(100 == system.shield);
             Debug.Assert(2 == system.lives);
         }
     }
-
-}

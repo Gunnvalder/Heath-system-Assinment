@@ -25,7 +25,7 @@ public class Enemy : Actor {
 
     public override bool WantsToShoot()
     {
-        if (healthSystem.enemyHealth <= 0)
+        if (healthSystem.health <= 0)
             return false;
         shootInterval -= Time.deltaTime;
         if (shootInterval < 0.0f) {

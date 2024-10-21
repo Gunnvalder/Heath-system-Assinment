@@ -40,10 +40,10 @@ public class Actor : MonoBehaviour
             ShootProjectile();
         }
 
-        if (healthSystem.enemyHealth != lastCheckingForDeath)
+        if (healthSystem.health != lastCheckingForDeath)
         {
-            lastCheckingForDeath = healthSystem.enemyHealth;
-            if (healthSystem.enemyHealth <= 0)
+            lastCheckingForDeath = healthSystem.health;
+            if (healthSystem.health <= 0)
             {
                 Die();
             }
