@@ -42,7 +42,7 @@ public class HealthSystem
 
     public void TakeDamage(int damage)
     {
-        if (damage < 0) return;
+        if (damage < 0) 
 
         {
             if (shield > 0)
@@ -63,7 +63,10 @@ public class HealthSystem
         health = Math.Max(0, health - damage);
 
         if (health == 0)
+        {
             Revive();
+        }
+            
 
         Debug.Log(health);
     }
