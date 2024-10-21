@@ -11,6 +11,7 @@ public class Player : Actor {
     public void Awake() {
         instance = this;
         var tests = new HealthSystemTests();
+        tests.RunTests();
     }
 
     public override void Die()

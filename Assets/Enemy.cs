@@ -10,8 +10,15 @@ public class Enemy : Actor {
 
     private void OnEnable() {
         allEnemies.Add(this);
+        Invoke("SetLivesToZero", 0.1f);
     }
 
+    public void SetLivesToZero()
+    {
+        healthSystem.lives = 0;
+        healthSystem.shield = 0;
+
+    }
     private void OnDisable() {
         allEnemies.Remove(this);
     }

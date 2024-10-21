@@ -43,29 +43,21 @@ public class HealthSystem
     public void TakeDamage(int damage)
     {
         if (damage < 0) return;
+
         {
             if (shield > 0)
             {
-                if (damage >= shield)
-                {
-                    damage -= shield;
-                    shield = 0;
-                    health = Mathf.Max(health - damage, 0);
-                }
+            if (damage >= shield)
+            {
+                damage -= shield;
+                shield = 0;
+            }
             }
             else
             {
                 shield -= damage;
-                health = Mathf.Max(health - damage, 0);
+                damage = 0;
             }
-        }
-
-
-        if (shield > 0)
-        {
-            damage -= shield;
-            shield = Math.Max(0, shield - damage);
-            damage = Math.Max(0, damage);
         }
 
         health = Math.Max(0, health - damage);
@@ -89,10 +81,12 @@ public class HealthSystem
 
     public void Revive()
     {
-        lives = Math.Max(0, lives - 1);
-        health = 100;
-
-        if (lives <= 0)
+        if (lives > 0)
+        {
+            lives--;
+            health = 100;
+        }
+        else
         {
             Debug.Log("Game Over");
         }
